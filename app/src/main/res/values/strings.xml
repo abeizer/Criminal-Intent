@@ -11,4 +11,7 @@
     <string name="details_label">Details</string>
     <string name="checkbox_title">Solved</string>
 
+    <!-- DatePickerFragment -->
+    <string name="date_picker_title">Date of crime:</string>
+
 </resources>
