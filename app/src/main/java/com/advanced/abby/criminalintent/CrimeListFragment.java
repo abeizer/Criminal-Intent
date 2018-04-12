@@ -1,5 +1,6 @@
 package com.advanced.abby.criminalintent;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,15 +33,32 @@ public class CrimeListFragment extends Fragment {
         return view;
     }//end onCreateView
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        updateUI();
+    }
+
+
     private void updateUI()
     {
         //Get the list of crimes from the CrimeLab
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
 
-        //Pass the crime list to the adapter and associate the adapter with the RecyclerView
-        mAdapter = new CrimeAdapter(crimes);
-        mCrimeRecyclerView.setAdapter(mAdapter);
+        if(mAdapter == null)
+        {
+            //Pass the crime list to the adapter and associate the adapter with the RecyclerView
+            mAdapter = new CrimeAdapter(crimes);
+            mCrimeRecyclerView.setAdapter(mAdapter);
+        }
+        else
+        {
+            mAdapter.notifyDataSetChanged();
+        }
+
+
 
     }//end updateUI
 
@@ -63,7 +81,9 @@ public class CrimeListFragment extends Fragment {
         @Override
         public void onClick(View v)
         {
-            Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
+            //On click, begins the CrimeActivity
+            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            startActivity(intent);
         }//end onClick
 
         public void bindCrime(Crime crime)
