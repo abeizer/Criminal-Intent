@@ -9,6 +9,9 @@ import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -47,6 +50,7 @@ public class CrimeFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }//end onCreate
@@ -76,7 +80,7 @@ public class CrimeFragment extends Fragment
             {
                 //do nothing
             }
-        });
+        });//end addOnTextChangedListener
 
         //Get reference to fragment_crime button
         mDateButton = (Button) v.findViewById(R.id.date_button);
@@ -106,10 +110,8 @@ public class CrimeFragment extends Fragment
                 TimePickerFragment dialog = TimePickerFragment.newInstance(mCrime.getDate());
                 dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
                 dialog.show(manager, DIALOG_DATE);
-
-            }
-        });
-
+            }//end onClick
+        });//end Listener
 
         //Get reference to the fragment_crime checkbox
         mSolvedCheckBox = (CheckBox)v.findViewById(R.id.solved_checkbox);
@@ -124,7 +126,16 @@ public class CrimeFragment extends Fragment
         });//end Listener
 
         return v;
-    }//emd onCreateView
+    }//end onCreateView
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_crime, menu);
+    }//end onCreateOptionsMenu
+
 
     //Accepts a UUID, creates an arguments bundle, and attaches the arguments to a new CrimeFragment
     public static CrimeFragment newInstance(UUID crimeId)
@@ -134,8 +145,26 @@ public class CrimeFragment extends Fragment
         CrimeFragment fragment = new CrimeFragment();
         fragment.setArguments(args);
         return fragment;
-    }
+    }//newInstance
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch(item.getItemId())
+        {
+            case R.id.menu_item_delete_crime:
+            {
+                CrimeLab.get(getActivity()).deleteCrime(mCrime);
+                getActivity().finish();
+                return true;
+
+            }
+            default:
+            {
+               return super.onOptionsItemSelected(item);
+            }
+        }
+    }//end onOptionsItemSelected
 
 
     //For receiving a date from DatePickerFragment
@@ -169,15 +198,13 @@ public class CrimeFragment extends Fragment
         SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy");
         String date = formatter.format(mCrime.getDate());
         mDateButton.setText(date);
-    }
+    }//end updateDate
 
     private void updateTime()
     {
         SimpleDateFormat formatter = new SimpleDateFormat("hh:mm");
         String time = formatter.format(mCrime.getDate());
         mTimeButton.setText(time);
-    }
+    }//updateTime
 
-
-
-}
+}//end class CrimeFragment
