@@ -18,6 +18,7 @@ public class CrimeLab
        mCrimes = new ArrayList<>();
 
        //populate arraylist with 100 placeholder crimes
+       /*
        for(int i = 0; i < 100; i++)
        {
             Crime crime = new Crime();
@@ -25,6 +26,7 @@ public class CrimeLab
             crime.setSolved( (i%2) == 0);   //Every other crime
             mCrimes.add(crime);
        }//end for
+       */
     }//end constructor
 
     //returns this
@@ -55,6 +57,24 @@ public class CrimeLab
         }//end for
         return null;
     }//end getCrime
+
+    public void addCrime(Crime c)
+    {
+        mCrimes.add(c);
+    }
+
+    public void deleteCrime(Crime c)
+    {
+        for(Crime crime : mCrimes)
+        {
+            if(crime == c)
+            {
+                mCrimes.remove(c);
+                return;
+            }
+        }
+    }
+
 
 
 }//end class
