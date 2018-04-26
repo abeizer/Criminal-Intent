@@ -10,6 +10,8 @@
     <string name="title_label">Title</string>
     <string name="details_label">Details</string>
     <string name="checkbox_title">Solved</string>
+    <string name="crime_suspect_text">Choose Suspect</string>
+    <string name="crime_report_text">Send Crime Report</string>
 
     <!-- DatePickerFragment and TimePickerFragment -->
     <string name="date_picker_title">Date of crime:</string>
@@ -21,5 +23,7 @@
     <string name="hide_subtitle">Hide Subtitle</string>
     <string name="subtitle_format">%1$s crimes</string>
     <string name="delete_crime">Delete Crime</string>
+
+
 
 </resources>
